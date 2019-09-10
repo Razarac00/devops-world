@@ -14,6 +14,10 @@ stages:
         pool: # the toolbox to use in this job
           vmImage: 'ubuntu-16.04'
         steps:
+          - task: UseDotNet@2
+            displayName: 'dotnet installer'
+            input:
+              version: '2.2.401'
           - script: |
               dotnet build
 
