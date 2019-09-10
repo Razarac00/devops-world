@@ -15,7 +15,7 @@ stages:
           vmImage: 'ubuntu-16.04'
         steps:
           - script: |
-              echo 'build passed...'
+              dotnet build
 
   - stage: 'test' # evaluated == no quotes
     condition: succeeded() # succeeded() == thing before this must have succeeded. failed(), failedOnly()
@@ -29,10 +29,12 @@ stages:
           vmImage: 'ubuntu-16.04'
         steps:
           - script: |
-              echo 'test passed...'
+              dotnet test
 
   - stage: 'pack' # evaluated == no quotes
     condition: succeeded() # succeeded() == thing before this must have succeeded. failed(), failedOnly()
+    dependsOn:
+      - test
     displayName: 'pack-mvc' # literal
     jobs:
       - job:
@@ -43,10 +45,12 @@ stages:
           vmImage: 'ubuntu-16.04'
         steps:
           - script: |
-              echo 'pack passed...'
+              echo 'pack passed...' # docker, dotnet pack, dotnet publish
 
   - stage: 'deploy' # evaluated == no quotes
     condition: succeeded() # succeeded() == thing before this must have succeeded. failed(), failedOnly()
+    dependsOn:
+      - test
     displayName: 'deploy-mvc' 
     jobs:
       - job:
