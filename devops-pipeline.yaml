@@ -47,23 +47,22 @@ stages:
 
   - stage: 'deploy' # evaluated == no quotes
     condition: succeeded() # succeeded() == thing before this must have succeeded. failed(), failedOnly()
-    displayName: 'deploy-mvc' # literal
+    displayName: 'deploy-mvc' 
     jobs:
       - job:
         condition: succeeded()
-        # condition: and(succeeded(), eq(['BranchName'], 'fred'))
         displayName: 'deploy-process'
-        pool: # the toolbox to use in this job
+        pool: 
           vmImage: 'ubuntu-16.04'
         steps:
           - script: |
               echo 'deploy passed...'
 
 
-triggers: # does the listening, the source ctrl does the triggering
-  - branches:
-      include:
-        - master
+trigger: # does the listening, the source ctrl does the triggering, branches, pr, tags
+  branches:
+    include:
+      - master
 
 variables:
 
