@@ -65,5 +65,4 @@ trigger: # does the listening, the source ctrl does the triggering, branches, pr
       - master
 
 variables:
-
-
+  - testVar: 'tuesday'
