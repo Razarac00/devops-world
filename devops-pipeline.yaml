@@ -1,0 +1,70 @@
+# devopsworld - pipeline ; used as frontmatter to replace ---
+
+name: $(date:yyyyMMdd)$(rev:.rr) #20190910.00, date and rev are builtins
+
+stages:
+  - stage: 'build' # evaluated == no quotes
+    condition: succeeded() # succeeded() == thing before this must have succeeded. failed(), failedOnly()
+    displayName: 'build-mvc' # literal
+    jobs:
+      - job:
+        condition: succeeded()
+        # condition: and(succeeded(), eq(['BranchName'], 'fred'))
+        displayName: 'build-process'
+        pool: # the toolbox to use in this job
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - script: |
+              echo 'build passed...'
+
+  - stage: 'test' # evaluated == no quotes
+    condition: succeeded() # succeeded() == thing before this must have succeeded. failed(), failedOnly()
+    displayName: 'test-mvc' # literal
+    jobs:
+      - job:
+        condition: succeeded()
+        # condition: and(succeeded(), eq(['BranchName'], 'fred'))
+        displayName: 'test-process'
+        pool: # the toolbox to use in this job
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - script: |
+              echo 'test passed...'
+
+  - stage: 'pack' # evaluated == no quotes
+    condition: succeeded() # succeeded() == thing before this must have succeeded. failed(), failedOnly()
+    displayName: 'pack-mvc' # literal
+    jobs:
+      - job:
+        condition: succeeded()
+        # condition: and(succeeded(), eq(['BranchName'], 'fred'))
+        displayName: 'pack-process'
+        pool: # the toolbox to use in this job
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - script: |
+              echo 'pack passed...'
+
+  - stage: 'deploy' # evaluated == no quotes
+    condition: succeeded() # succeeded() == thing before this must have succeeded. failed(), failedOnly()
+    displayName: 'deploy-mvc' # literal
+    jobs:
+      - job:
+        condition: succeeded()
+        # condition: and(succeeded(), eq(['BranchName'], 'fred'))
+        displayName: 'deploy-process'
+        pool: # the toolbox to use in this job
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - script: |
+              echo 'deploy passed...'
+
+
+triggers: # does the listening, the source ctrl does the triggering
+  - branches:
+      include:
+        - master
+
+variables:
+
+
