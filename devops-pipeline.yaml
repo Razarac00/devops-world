@@ -33,7 +33,7 @@ stages:
           vmImage: 'ubuntu-16.04'
         steps:
           - script: |
-              dotnet test
+              dotnet test -p:CollectCoverage=true
 
   - stage: 'pack' # evaluated == no quotes
     condition: succeeded() # succeeded() == thing before this must have succeeded. failed(), failedOnly()
