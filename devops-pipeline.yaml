@@ -76,7 +76,7 @@ stages:
               docker push orjijohn/devopsworld
 
   - stage: 'deploy' # evaluated == no quotes
-    condition: succeeded() # succeeded() == thing before this must have succeeded. failed(), failedOnly()
+    condition: succeeded('pack') # succeeded() == thing before this must have succeeded. failed(), failedOnly()
     dependsOn:
       - test
     displayName: 'deploy-mvc' 
@@ -87,8 +87,11 @@ stages:
         pool: 
           vmImage: 'ubuntu-16.04'
         steps:
-          - script: |
-              echo 'working on it...'
+          - task: AzureWebAppContainer@1
+            inputs:
+              azureSubscription: 'Free Trial(c627afcc-a09f-48f7-b81a-fe0ebc8244c4)'
+              appName: 'devopswarudo'
+              containers: 'orjijohn/devopsworld'
 
 
 trigger: # does the listening, the source ctrl does the triggering, branches, pr, tags
