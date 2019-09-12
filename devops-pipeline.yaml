@@ -65,6 +65,11 @@ stages:
         pool: # the toolbox to use in this job
           vmImage: 'ubuntu-16.04'
         steps:
+          - task: Docker@2
+            inputs:
+              command: 'login'
+              containerRegistry: 'docker'
+            displayName: 'docker login'
           - script: |
               docker image build --file Dockerfile --tag devopsworld .
               docker image tag devopsworld orjijohn/devopsworld
