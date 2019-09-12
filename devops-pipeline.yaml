@@ -65,15 +65,15 @@ stages:
         pool: # the toolbox to use in this job
           vmImage: 'ubuntu-16.04'
         steps:
+          - script: |
+              docker image build --file Dockerfile --tag devopsworld .
+              docker image tag devopsworld orjijohn/devopsworld
+              docker push orjijohn/devopsworld
           - task: Docker@2
             inputs:
               command: 'logout'
               containerRegistry: 'docker'
             displayName: 'docker login'
-          - script: |
-              docker image build --file Dockerfile --tag devopsworld .
-              docker image tag devopsworld orjijohn/devopsworld
-              docker push orjijohn/devopsworld
 
   - stage: 'deploy' # evaluated == no quotes
     condition: succeeded('pack') # succeeded() == thing before this must have succeeded. failed(), failedOnly()
